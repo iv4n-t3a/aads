@@ -148,9 +148,6 @@ void Runtest(std::istream& inp, std::ostream& outp) {
 }
 
 int main() {
-  std::ios_base::sync_with_stdio(false);
-  std::cin.tie(nullptr);
-
   size_t tests;
   std::cin >> tests;
 
