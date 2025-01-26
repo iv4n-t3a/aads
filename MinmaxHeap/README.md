@@ -19,7 +19,7 @@
 
 На первой строке количество запросов, далее запросы вида
 
-* `insert num i`
+* `insert num`
 * `extract_min`
 * `extract_max`
 * `get_min`
