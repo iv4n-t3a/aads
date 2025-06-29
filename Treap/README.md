@@ -1,21 +1,57 @@
-# Декартово дерево по неявному ключу, с поддержкой разворота подмассива
+# Treap Class Documentation
 
-## Ассимптотика операций
+The `Treap` class is a data structure that combines the properties of a binary search tree and a heap. It supports efficient insertion, deletion, and access operations while maintaining a balanced structure relying on randomized priorities given to each node.
 
-* Вставка элемента: `O(log n)`
-* Разворот подмассива: `O(log n)`
-* Минимум диапозона: `O(log n)`
+## Template Parameters
+- `T`: The type of elements stored in the Treap.
+- `Comp`: A comparator type (default: `std::less<>`) used to define the ordering of elements.
+- `Rand`: A random number generator type (default: `std::mt19937`) used to assign priorities to nodes.
 
-## Формат входных данных
+## Constructors
+- **`Treap()`**: Default constructor that initializes an empty Treap.
+- **`Treap(std::initializer_list<T> init_list)`**: Constructs a Treap from an initializer list of elements.
+- **`Treap(const Treap& treap)`**: Copy constructor.
+- **`Treap(Treap&& treap)`**: Move constructor.
 
-На 1-й строке два числа `N` и `Q`,
-далее массив из `N` элементов и `Q` запросов.
+## Operators
+- **`Treap& operator=(const Treap& other)`**: Copy assignment operator.
+- **`Treap& operator=(Treap&& other)`**: Move assignment operator.
+- **`T& operator[](size_t index)`**: Accesses the element at the specified index.
 
-Каждый запрос состоит из трех чисел `t`, `l`, `r`.
+## Methods
+- **`void Insert(size_t index, const T& value)`**: Inserts a value at the specified index.
+- **`void Insert(size_t index, T&& value)`**: Inserts a value (rvalue) at the specified index.
+- **`T& Min(size_t left, size_t right)`**: Returns the minimum value in the range `[left, right)`.
+- **`void Reverse(size_t left, size_t right)`**: Reverses the elements in the range `[left, right)`.
+- **`void Reverse()`**: Reverses order of elements in entire struct.
+- **`static Treap Merge(Treap&& left, Treap&& right)`**: Merges two Treaps into one.
+- **`std::pair<Treap, Treap> Split(size_t del) &&`**: Splits the Treap into two at the specified index.
+- **`size_t Size() const`**: Returns the number of elements in the Treap.
+- **`void Print(std::ostream& out = std::cout)`**: Prints the Treap structure to the specified output stream.
 
-* `t` - вид запроса (1 - разворот отрезке, 2 - минимум на отрезке)
-* `l` и `r` - границы отрезка (включительно)
+## Time complexity
 
-## Выходные данные
+- **`Treap(const Treap&)`** - O(N)
+- **`Treap(Treap&&)`** - O(1)
+- **`Insert`** - O(log N)
+- **`Min`** - O(log N)
+- **`Reverse(l, r)`** - O(log N)
+- **`Reverse`** - O(1)
+- **`Merge`** - O(log N)
+- **`Split`** - O(log N)
+- **`operator[]`** - O(log N)
 
-Ответы на запросы второго типа.
+## Example Usage
+```cpp
+#include "treap.hpp"
+#include <iostream>
+
+int main() {
+    Aads::Treap<int> treap = {1, 2, 3, 4, 5};
+    treap.Insert(2, 10);
+    std::cout << "Element at index 2: " << treap[2] << std::endl;
+    treap.Reverse(1, 4);
+    treap.Print();
+    return 0;
+}
+```
