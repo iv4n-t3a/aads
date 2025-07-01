@@ -15,52 +15,58 @@ This file provides an implementation of the QuickSort algorithm. It is a generic
 
 1. **RandomNumberGenerator**
 
-  template <typename Rand>
-  concept RandomNumberGenerator = requires(Rand rand) {
-    { rand() } -> std::integral;
-  };
+```cpp
+   template <typename Rand>
+   concept RandomNumberGenerator = requires(Rand rand) {
+       { rand() } -> std::integral;
+   };
+```
 
 Ensures that the random number generator provides integral values.
 
 2. **Comparator**
 
-  template <typename Comp, typename T>
-  concept Comparator = requires(Comp comp, T lhs, T rhs) {
-    { comp(lhs, rhs) } -> std::convertible_to<bool>;
-  };
+```cpp
+   template <typename Comp, typename T>
+   concept Comparator = requires(Comp comp, T lhs, T rhs) {
+       { comp(lhs, rhs) } -> std::convertible_to<bool>;
+   };
+```
 
-Ensures that the comparator can compare two elements and return a boolean-like result.
+   Ensures that the comparator can compare two elements and return a boolean-like result.
 
 ### Functions
 
 **QuickSort**
-The main QuickSort function.
+   The main QuickSort function.
+   ```cpp
+   template <std::random_access_iterator Iter,
+             Comparator<std::iter_value_t<Iter>> Comp = std::less<>,
+             RandomNumberGenerator Rand = RandomGenerator>
+   void QuickSort(Iter begin, Iter end, Comp comp = Comp(), Rand rand = Rand());
+   ```
 
-  template <std::random_access_iterator Iter,
-            Comparator<std::iter_value_t<Iter>> Comp = std::less<>,
-            RandomNumberGenerator Rand = RandomGenerator>
-  void QuickSort(Iter begin, Iter end, Comp comp = Comp(), Rand rand = Rand());
+   - **Parameters**:
+     - `begin`, `end`: Iterators defining the range to sort.
+     - `comp`: Comparator for ordering elements (default: `std::less<>`).
+     - `rand`: Random number generator (default: `RandomGenerator`).
 
-**Parameters**:
-- `begin`, `end`: Iterators defining the range to sort.
-- `comp`: Comparator for ordering elements (default: `std::less<>`).
-- `rand`: Random number generator (default: `RandomGenerator`).
-
-**Behavior**:
-- Recursively partitions the range and sorts the subranges.
+   - **Behavior**:
+     - Recursively partitions the range and sorts the subranges.
 
 ## Usage Example
 
+```cpp
 #include "quicksort.hpp"
 #include <vector>
 #include <iostream>
 
 int main() {
-  std::vector<int> data = {3, 6, 8, 10, 1, 2, 1};
-  Aads::QuickSort(data.begin(), data.end());
-  for (int num : data) {
-    std::cout << num << " ";
-  }
+    std::vector<int> data = {3, 6, 8, 10, 1, 2, 1};
+    Aads::QuickSort(data.begin(), data.end());
+    for (int num : data) {
+        std::cout << num << " ";
+    }
 }
 ```
 
