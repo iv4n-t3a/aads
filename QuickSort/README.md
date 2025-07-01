@@ -9,32 +9,6 @@ This file provides an implementation of the QuickSort algorithm. It is a generic
 - **Custom Random Generators**: Enables the use of custom random number generators for pivot selection.
 - **Modern C++ Concepts**: Utilizes C++20 concepts to enforce type constraints.
 
-## Components
-
-### Concepts
-
-1. **RandomNumberGenerator**
-
-```cpp
-   template <typename Rand>
-   concept RandomNumberGenerator = requires(Rand rand) {
-       { rand() } -> std::integral;
-   };
-```
-
-Ensures that the random number generator provides integral values.
-
-2. **Comparator**
-
-```cpp
-   template <typename Comp, typename T>
-   concept Comparator = requires(Comp comp, T lhs, T rhs) {
-       { comp(lhs, rhs) } -> std::convertible_to<bool>;
-   };
-```
-
-   Ensures that the comparator can compare two elements and return a boolean-like result.
-
 ### Functions
 
 **QuickSort**

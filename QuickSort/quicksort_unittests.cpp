@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "quicksort.hpp"
+#include "QuickSort/quicksort.hpp"
 
 class QuickSortTest : public ::testing::TestWithParam<size_t> {};
 

@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "treap.hpp"
+#include "Treap/treap.hpp"
 
 TEST(TreapTest, InsertSimple) {
   Aads::Treap<int> treap;

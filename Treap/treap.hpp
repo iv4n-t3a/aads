@@ -10,9 +10,13 @@
 #include <type_traits>
 #include <utility>
 
+#include "Util/concepts.hpp"
+#include "Util/random.hpp"
+
 namespace Aads {
 
-template <typename T, typename Comp = std::less<>, typename Rand = std::mt19937>
+template <typename T, Util::Comparator<T> Comp = std::less<>,
+          Util::RandomNumberGenerator Rand = std::mt19937>
 class Treap {
   struct Node;
 
