@@ -10,6 +10,9 @@ cc_test(
 
       "QuickSort/quicksort.hpp",
       "QuickSort/quicksort_unittests.cpp",
+
+      "LSDSort/lsd_sort.hpp",
+      "LSDSort/lsd_sort_unittests.cpp",
     ],
     deps = [
         "@googletest//:gtest",
