@@ -4,8 +4,7 @@ The `Treap` class is a data structure that combines the properties of a binary s
 
 ## Template Parameters
 - `T`: The type of elements stored in the Treap.
-- `Comp`: A comparator type (default: `std::less<>`) used to define the ordering of elements.
-- `Rand`: A random number generator type (default: `std::mt19937`) used to assign priorities to nodes.
+- `Comp`: A comparator type (default: `std::less<>`), must satisfy `std::relation<T, T>`
 
 ## Constructors
 - **`Treap()`**: Default constructor that initializes an empty Treap.

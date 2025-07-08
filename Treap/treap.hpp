@@ -10,13 +10,9 @@
 #include <type_traits>
 #include <utility>
 
-#include "Util/concepts.hpp"
-#include "Util/random.hpp"
-
 namespace Aads {
 
-template <typename T, Util::Comparator<T> Comp = std::less<>,
-          Util::RandomNumberGenerator Rand = std::mt19937>
+template <typename T, std::relation<T, T> Comp = std::less<>>
 class Treap {
   struct Node;
 
@@ -56,13 +52,13 @@ class Treap {
   void Insert(size_t index, const T& value) {
     assert(index < Size() + 1);
     auto [left, right] = Split(root_, index);
-    Node* node = new Node(value, rand_());
+    Node* node = new Node(value, Random());
     root_ = Merge(Merge(left, node), right);
   }
 
   void Insert(size_t index, T&& value) {
     auto [left, right] = Split(root_, index);
-    Node* node = new Node(std::move(value), rand_());
+    Node* node = new Node(std::move(value), Random());
     root_ = Merge(Merge(left, node), right);
   }
 
@@ -239,6 +235,16 @@ class Treap {
     }
   }
 
+  static std::mt19937 InitGenerator() {
+    static std::random_device random_device;
+    return std::mt19937(random_device());
+  }
+
+  static int Random() {
+    static std::mt19937 gen = InitGenerator();
+    return gen();
+  }
+
   struct Node {
     T value;
     int priority;
@@ -255,7 +261,6 @@ class Treap {
   };
 
   Node* root_ = nullptr;
-  Rand rand_;
   Comp comp_;
 };
 
