@@ -13,6 +13,9 @@ cc_test(
 
       "SegmentTree/segment_tree.hpp",
       "SegmentTree/segment_tree_unittests.cpp",
+
+      "LRU/lru.hpp",
+      "LRU/lru_unittests.cpp"
     ],
     deps = [
         "@googletest//:gtest",
