@@ -10,6 +10,9 @@ cc_test(
 
       "LSDSort/lsd_sort.hpp",
       "LSDSort/lsd_sort_unittests.cpp",
+
+      "SegmentTree/segment_tree.hpp",
+      "SegmentTree/segment_tree_unittests.cpp",
     ],
     deps = [
         "@googletest//:gtest",
