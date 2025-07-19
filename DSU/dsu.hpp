@@ -1,6 +1,7 @@
 #include <cstddef>
-#include <iostream>
 #include <vector>
+
+namespace Aads {
 
 class DSU {
  public:
@@ -38,25 +39,4 @@ class DSU {
   std::vector<size_t> rank_;
 };
 
-int main() {
-  int sets;
-  int queryes;
-
-  std::cin >> sets >> queryes;
-
-  DSU dsu(sets);
-
-  for (size_t i = 0; i < queryes; ++i) {
-    char cmd;
-    int lhs;
-    int rhs;
-
-    std::cin >> cmd >> lhs >> rhs;
-
-    if (cmd == '+') {
-      dsu.Unite(lhs - 1, rhs - 1);
-    } else if (cmd == '?') {
-      std::cout << dsu.AreSame(lhs - 1, rhs - 1) << std::endl;
-    }
-  }
-}
+}  // namespace Aads
