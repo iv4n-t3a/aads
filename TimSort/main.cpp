@@ -1,3 +1,5 @@
+#error is developped now, not finished
+
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
