@@ -31,7 +31,7 @@ This file provides an implementation of the QuickSort algorithm. It is a generic
 ## Usage Example
 
 ```cpp
-#include "quicksort.hpp"
+#include "QuickSort/quicksort.hpp"
 #include <vector>
 #include <iostream>
 

@@ -42,7 +42,7 @@ The `Treap` class is a data structure that combines the properties of a binary s
 
 ## Example Usage
 ```cpp
-#include "treap.hpp"
+#include "Treap/treap.hpp"
 #include <iostream>
 
 int main() {
