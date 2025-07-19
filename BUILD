@@ -15,7 +15,10 @@ cc_test(
       "SegmentTree/segment_tree_unittests.cpp",
 
       "LRU/lru.hpp",
-      "LRU/lru_unittests.cpp"
+      "LRU/lru_unittests.cpp",
+
+      "PersistantArray/persistant_array.hpp",
+      "PersistantArray/persistant_array_unittests.cpp"
     ],
     deps = [
         "@googletest//:gtest",
