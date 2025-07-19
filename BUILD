@@ -21,7 +21,10 @@ cc_test(
       "PersistantArray/persistant_array_unittests.cpp",
 
       "DSU/dsu.hpp",
-      "DSU/dsu_unittests.cpp"
+      "DSU/dsu_unittests.cpp",
+
+      "Heap/heap.hpp",
+      "Heap/heap_unittests.cpp"
     ],
     deps = [
         "@googletest//:gtest",
