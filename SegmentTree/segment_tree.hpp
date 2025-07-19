@@ -23,6 +23,9 @@ class SegmentTree {
   SegmentTree(std::initializer_list<T> list, F func = F{})
       : SegmentTree(list.begin(), list.end(), func) {}
 
+  SegmentTree(const SegmentTree& other)
+      : size_(other.size_), tree_(other.tree_), func_(other.func_) {}
+
   T Calc(size_t begin, size_t end) const {
     begin += size_;
     end += size_;
