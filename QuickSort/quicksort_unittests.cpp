@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <algorithm>
+#include <random>
 #include <vector>
 
 #include "QuickSort/quicksort.hpp"

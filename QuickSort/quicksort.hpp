@@ -12,16 +12,6 @@ template <typename Comp, typename Iter>
 concept Comparator =
     std::relation<Comp, std::iter_value_t<Iter>, std::iter_value_t<Iter>>;
 
-std::mt19937 InitGenerator() {
-  static std::random_device random_device;
-  return std::mt19937(random_device());
-}
-
-int Random() {
-  static std::mt19937 gen = InitGenerator();
-  return gen();
-}
-
 template <std::random_access_iterator Iter, Comparator<Iter> Comp = std::less<>>
 Iter Partition(Iter begin, Iter end, Iter pivot, Comp comp) {
   std::swap(*pivot, *(end - 1));  // Move pivot to the end
@@ -53,7 +43,8 @@ Iter Partition(Iter begin, Iter end, Iter pivot, Comp comp) {
 
 template <std::random_access_iterator Iter>
 Iter PickPivot(Iter begin, Iter end) {
-  size_t idx = Random() % (end - begin);
+  static auto rnd = std::mt19937(std::random_device()());
+  size_t idx = rnd() % (end - begin);
   return begin + idx;
 }
 

@@ -235,14 +235,9 @@ class Treap {
     }
   }
 
-  static std::mt19937 InitGenerator() {
-    static std::random_device random_device;
-    return std::mt19937(random_device());
-  }
-
   static int Random() {
-    static std::mt19937 gen = InitGenerator();
-    return gen();
+    static auto rnd = std::mt19937(std::random_device()());
+    return rnd();
   }
 
   struct Node {
