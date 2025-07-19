@@ -1,16 +1,28 @@
+#include <concepts>
 #include <cstdlib>
 #include <ctime>
 #include <iterator>
-
-#include "Util/concepts.hpp"
-#include "Util/random.hpp"
+#include <random>
 
 namespace Aads {
 
 namespace {
 
-template <std::random_access_iterator Iter,
-          Util::Comparator<std::iter_value_t<Iter>> Comp = std::less<>>
+template <typename Comp, typename Iter>
+concept Comparator =
+    std::relation<Comp, std::iter_value_t<Iter>, std::iter_value_t<Iter>>;
+
+std::mt19937 InitGenerator() {
+  static std::random_device random_device;
+  return std::mt19937(random_device());
+}
+
+int Random() {
+  static std::mt19937 gen = InitGenerator();
+  return gen();
+}
+
+template <std::random_access_iterator Iter, Comparator<Iter> Comp = std::less<>>
 Iter Partition(Iter begin, Iter end, Iter pivot, Comp comp) {
   std::swap(*pivot, *(end - 1));  // Move pivot to the end
   Iter mid = begin;
@@ -39,22 +51,20 @@ Iter Partition(Iter begin, Iter end, Iter pivot, Comp comp) {
   }
 }
 
-template <std::random_access_iterator Iter, Util::RandomNumberGenerator Rand>
-Iter PickPivot(Iter begin, Iter end, Rand& rand) {
-  size_t idx = rand() % (end - begin);
+template <std::random_access_iterator Iter>
+Iter PickPivot(Iter begin, Iter end) {
+  size_t idx = Random() % (end - begin);
   return begin + idx;
 }
 
 }  // namespace
 
-template <std::random_access_iterator Iter,
-          Util::Comparator<std::iter_value_t<Iter>> Comp = std::less<>,
-          Util::RandomNumberGenerator Rand = Util::RandomGenerator>
-void QuickSort(Iter begin, Iter end, Comp comp = Comp(), Rand rand = Rand()) {
+template <std::random_access_iterator Iter, Comparator<Iter> Comp = std::less<>>
+void QuickSort(Iter begin, Iter end, Comp comp = Comp()) {
   if (begin == end or begin >= end - 1) {
     return;
   }
-  Iter pivot = PickPivot(begin, end, rand);
+  Iter pivot = PickPivot(begin, end);
   Iter mid = Partition(begin, end, pivot, comp);
   QuickSort(begin, mid, comp);
   QuickSort(mid, end, comp);
