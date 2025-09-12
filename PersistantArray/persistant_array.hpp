@@ -4,6 +4,10 @@
 #include <iterator>
 #include <vector>
 
+namespace Aads {
+
+namespace {
+
 int Binlog(uint64_t num) {
   int res = 0;
   while ((1ULL << res) < num) {
@@ -12,15 +16,17 @@ int Binlog(uint64_t num) {
   return res;
 }
 
+}  // namespace
+
 template <typename T>
-class PersestentArray {
+class PersistentArray {
   struct BaseNode;
   struct Node;
   struct Leaf;
 
  public:
   template <std::forward_iterator Iter>
-  PersestentArray(Iter begin, Iter end) {
+  PersistentArray(Iter begin, Iter end) {
     size_ = std::distance(begin, end);
     tree_depth_ = Binlog(size_);
     tree_width_ = 1ULL << tree_depth_;
@@ -89,17 +95,29 @@ class PersestentArray {
   }
 
   const T& Get(size_t index) { return Get(Versions() - 1, index); }
-  size_t Versions() const { return roots_.size(); }
+
+  size_t Versions() const {
+    // Consider empty array contains one version
+    return std::max(roots_.size(), static_cast<size_t>(1));
+  }
+
   size_t Size() const { return size_; }
 
-  ~PersestentArray() {
+  ~PersistentArray() {
     for (Node* nodes_arr : node_arrays_to_delete_) {
       delete[] nodes_arr;
     }
     for (Leaf* leafs : leafs_to_delete_) {
       delete leafs;
     }
-    delete[] initial_array_;
+    if (initial_array_) {
+      // TODO: figure out why delete[] initial_array_ causes crash with
+      // T == std::string
+      for (size_t i = 0; i < size_; ++i) {
+        (initial_array_ + i)->~Leaf();
+      }
+      delete[] reinterpret_cast<std::byte*>(initial_array_);
+    }
   }
 
  private:
@@ -164,39 +182,4 @@ class PersestentArray {
   };
 };
 
-int main() {
-  size_t arr_size;
-  std::cin >> arr_size;
-
-  std::vector<int> arr(arr_size);
-
-  for (int& elem : arr) {
-    std::cin >> elem;
-  }
-
-  PersestentArray<int> persistent_arr(arr.begin(), arr.end());
-
-  int queries;
-  std::cin >> queries;
-
-  for (int i = 0; i < queries; ++i) {
-    std::string cmd;
-    std::cin >> cmd;
-
-    if (cmd == "create") {
-      int version;
-      int index;
-      int value;
-
-      std::cin >> version >> index >> value;
-
-      persistent_arr.Set(version - 1, index - 1, value);
-    } else if (cmd == "get") {
-      int version;
-      int index;
-
-      std::cin >> version >> index;
-      std::cout << persistent_arr.Get(version - 1, index - 1) << '\n';
-    }
-  }
-}
+}  // namespace Aads

@@ -1,10 +1,21 @@
-# Реализация некоторых алгоритмов
+# Algorithms and data structures
 
-Здесь есть часть алгоритмов, реализованных в рамках курса АиСД на ВШПИ МФТИ.
+Simple header-only generic algorithms implementation library
 
-Также есть еще довольно много, их код планируется отрефакторить и добавить в этот репозиторий.
+## Key-Features
 
-## Большой рефакторинг
+- Each algorithm implementation is independent on other library files
+- Easy to copy and paste in leetcode tasks
+- Most of classic algorithms implemented
 
-Сейчас зачем-то рефачу весь репозиторий. Улучшаю код, добавляю пайплайн, ~~пишу~~ генерю доки и тесты.
-Все это непотребство можно посмотреть в ветке [big-refactoring](https://github.com/iv4n-t3a/aads/tree/big-refactoring)
+## What this library doesn't
+
+- No exception safety
+- No thread safety
+
+There are also quite a few additional algorithms planned for refactoring and inclusion in this repository.
+
+## Major Refactoring
+
+I am currently refactoring the entire repository. Improvements include code enhancements, pipeline integration, and ~~writing~~ generating documentation and tests.
+At this stage, the work is partially completed but has already seen significant improvements.

@@ -1,12 +1,12 @@
-#include <iostream>
-#include <string>
 #include <vector>
 
+namespace Aads {
+
+// TODO: Add custom comparator support
+// TODO: Override move-constructor and move-assign operator
 template <typename T>
 class Heap {
  public:
-  Heap() {}
-
   T& GetMax() { return heap_[0]; }
   const T& GetMax() const { return heap_[0]; }
 
@@ -77,29 +77,4 @@ class Heap {
   std::vector<T> heap_;
 };
 
-int main() {
-  int query_count;
-  std::cin >> query_count;
-
-  std::string cmd;
-  Heap<int64_t> heap;
-
-  for (int i = 0; i < query_count; ++i) {
-    std::cin >> cmd;
-    if (cmd == "insert") {
-      int64_t value;
-      std::cin >> value;
-      heap.Insert(value);
-    } else if (cmd == "getMax") {
-      if (heap.Size() != 0) {
-        std::cout << heap.GetMax() << std::endl;
-      } else {
-        std::cout << "Heap is empty" << std::endl;
-      }
-    } else if (cmd == "extractMax") {
-      if (heap.Size() != 0) {
-        heap.ExtractMax();
-      }
-    }
-  }
-}
+}  // namespace Aads

@@ -1,5 +1,7 @@
-#include <iostream>
+#include <stdexcept>
 #include <unordered_map>
+
+namespace Aads {
 
 template <typename K, typename T>
 class LruCache {
@@ -8,14 +10,13 @@ class LruCache {
  public:
   LruCache(size_t size_limit) : size_limit_(size_limit) {}
 
-  void Insert(const K& key, const T& value) {
+  T& operator[](const K& key) {
     if (map_.contains(key)) {
       Use(key);
-      map_[key].value = value;
-      return;
+      return map_[key].value;
     }
 
-    map_[key] = {key, value, nullptr, most_used_};
+    map_[key] = {key, T{}, nullptr, most_used_};
     Node* new_node = &map_[key];
 
     if (map_.size() == 1) {
@@ -29,20 +30,18 @@ class LruCache {
     if (map_.size() > size_limit_) {
       RemoveLeastUsed();
     }
-  }
 
-  T& Get(const K& key) {
-    if (not map_.contains(key)) {
-      throw std::out_of_range("No such key");
-    }
-    Use(key);
     return map_[key].value;
   }
 
-  void Remove(const K& key) {
-    Use(key);
-    RemoveLeastUsed();
+  T& GetWithoutUse(const K& key) {
+    if (!map_.contains(key)) {
+      throw std::out_of_range("No such key");
+    }
+    return map_[key].value;
   }
+
+  bool Contains(const K& key) const { return map_.contains(key); }
 
   void RemoveLeastUsed() {
     least_used_ = least_used_->more_used;
@@ -50,7 +49,11 @@ class LruCache {
     least_used_->less_used = nullptr;
   }
 
- private:
+  void Remove(const K& key) {
+    SetLeastUsed(key);
+    RemoveLeastUsed();
+  }
+
   void Use(const K& key) {
     Node* node = &map_[key];
 
@@ -72,6 +75,37 @@ class LruCache {
     most_used_ = node;
   }
 
+  size_t Size() const { return map_.size(); }
+
+  void UpdateLimit(size_t new_limit) {
+    while (Size() > new_limit) {
+      RemoveLeastUsed();
+    }
+    size_limit_ = new_limit;
+  }
+
+ private:
+  void SetLeastUsed(const K& key) {
+    Node* node = &map_[key];
+
+    if (node == least_used_) {
+      return;
+    }
+
+    if (node == most_used_) {
+      most_used_ = most_used_->less_used;
+      most_used_->more_used = nullptr;
+    } else {
+      node->more_used->less_used = node->less_used;
+      node->less_used->more_used = node->more_used;
+    }
+
+    node->more_used = least_used_;
+    node->less_used = nullptr;
+    least_used_->less_used = node;
+    least_used_ = node;
+  }
+
   struct Node {
     K key;
     T value;
@@ -85,30 +119,4 @@ class LruCache {
   std::unordered_map<K, Node> map_;
 };
 
-int main() {
-  size_t queries;
-  size_t size_limit;
-
-  std::cin >> queries >> size_limit;
-
-  LruCache<int, int> lru(size_limit);
-
-  char type;
-  int key;
-  int value;
-
-  for (size_t i = 0; i < queries; ++i) {
-    std::cin >> type >> key;
-
-    if (type == '1') {
-      try {
-        std::cout << lru.Get(key) << '\n';
-      } catch (...) {
-        std::cout << "-1\n";
-      }
-    } else {
-      std::cin >> value;
-      lru.Insert(key, value);
-    }
-  }
-}
+}  // namespace Aads
