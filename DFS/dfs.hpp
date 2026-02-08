@@ -1,10 +1,13 @@
-#include <iostream>
-#include <istream>
+#ifndef DFS_HPP
+#define DFS_HPP
+
 #include <span>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
+namespace Aads {
 
 enum Color { WHITE, GREY, BLACK };
 
@@ -94,43 +97,6 @@ std::vector<std::vector<int>> FindComps(const Graph<int>& graph) {
   return comps;
 }
 
-Graph<int> InputGraph(std::istream& inp) {
-  size_t vertexs;
-  size_t edges;
+}  // namespace Aads
 
-  inp >> vertexs >> edges;
-
-  Graph<int> graph;
-
-  for (size_t i = 0; i < edges; ++i) {
-    int vertex1;
-    int vertex2;
-
-    inp >> vertex1 >> vertex2;
-
-    graph.AddEdge(vertex1 - 1, vertex2 - 1);
-  }
-
-  return graph;
-}
-
-void PrintComps(std::ostream& out, std::vector<std::vector<int>> comps) {
-  out << comps.size() << "\n";
-
-  for (std::vector<int> comp : comps) {
-    out << comp.size() << "\n";
-    for (int vertex : comp) {
-      out << vertex + 1 << " ";
-    }
-    out << "\n";
-  }
-}
-
-int main() {
-  std::ios_base::sync_with_stdio(false);
-  std::cin.tie(nullptr);
-
-  Graph<int> graph = InputGraph(std::cin);
-  auto comps = FindComps(graph);
-  PrintComps(std::cout, comps);
-}
+#endif  // DFS_HPP

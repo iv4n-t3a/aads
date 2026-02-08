@@ -1,9 +1,11 @@
-#error is developped now, not finished
+#ifndef TIMSORT_HPP
+#define TIMSORT_HPP
 
 #include <cstdlib>
-#include <iostream>
 #include <iterator>
 #include <vector>
+
+namespace Aads {
 
 template <std::input_iterator Iter>
 using ValType = typename std::iterator_traits<Iter>::value_type;
@@ -164,29 +166,6 @@ void TimSort(Iter begin, Iter end) {
   delete[] reinterpret_cast<std::byte*>(buff);
 }
 
-std::vector<int> InputVector(std::istream& inp) {
-  size_t size;
-  inp >> size;
+}  // namespace Aads
 
-  std::vector<int> vector(size);
-
-  for (int& elem : vector) {
-    inp >> elem;
-  }
-
-  return vector;
-}
-
-template <std::forward_iterator Iter>
-void PrintRange(std::ostream& outp, Iter begin, Iter end) {
-  for (; begin != end; ++begin) {
-    outp << *begin << ' ';
-  }
-  outp << std::endl;
-}
-
-int main() {
-  std::vector<int> arr = InputVector(std::cin);
-  TimSort(arr.begin(), arr.end());
-  PrintRange(std::cout, arr.begin(), arr.end());
-}
+#endif  // TIMSORT_HPP

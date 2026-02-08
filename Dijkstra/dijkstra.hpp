@@ -1,9 +1,13 @@
-#include <iostream>
+#ifndef DIJKSTRA_HPP
+#define DIJKSTRA_HPP
+
 #include <queue>
 #include <span>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
+namespace Aads {
 
 template <typename T>
 class Edge {
@@ -105,53 +109,6 @@ class Visitor {
   std::unordered_set<Vertex> processed_;
 };
 
-Graph<int> InputGraph(std::istream& inp) {
-  size_t vertices;
-  size_t edges;
+}  // namespace Aads
 
-  inp >> vertices >> edges;
-
-  Graph<int> graph;
-  graph.SetVerticesCount(vertices);
-
-  for (size_t i = 0; i < edges; ++i) {
-    int vertex1;
-    int vertex2;
-    int weight;
-
-    inp >> vertex1 >> vertex2 >> weight;
-
-    graph.AddEdge(Edge<int>(vertex1, vertex2, weight));
-  }
-
-  return graph;
-}
-
-template <typename Visitor>
-void PrintDistances(const Visitor& vis, size_t vertices, std::ostream& outp) {
-  for (size_t i = 0; i < vertices; ++i) {
-    outp << vis.GetDistance(i) << " ";
-  }
-  outp << std::endl;
-}
-
-void Runtest(std::istream& inp, std::ostream& outp) {
-  Graph<int> graph = InputGraph(inp);
-
-  int start;
-  inp >> start;
-
-  Visitor<int> vis;
-  Dijkstra(graph, start, vis);
-
-  PrintDistances(vis, graph.CountVertices(), outp);
-}
-
-int main() {
-  size_t tests;
-  std::cin >> tests;
-
-  for (size_t i = 0; i < tests; ++i) {
-    Runtest(std::cin, std::cout);
-  }
-}
+#endif  // DIJKSTRA_HPP

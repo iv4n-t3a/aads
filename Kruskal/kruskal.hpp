@@ -1,7 +1,11 @@
+#ifndef KRUSKAL_HPP
+#define KRUSKAL_HPP
+
 #include <algorithm>
 #include <cstddef>
-#include <iostream>
 #include <vector>
+
+namespace Aads {
 
 class DSU {
  public:
@@ -49,29 +53,13 @@ struct Edge {
   }
 };
 
-int main() {
-  int vertex_count;
-  int edges_count;
-
-  std::cin >> vertex_count >> edges_count;
-
-  std::vector<Edge> edges;
-
-  for (size_t i = 0; i < edges_count; ++i) {
-    int vert1;
-    int vert2;
-    int weight;
-
-    std::cin >> vert1 >> vert2 >> weight;
-    edges.push_back({vert1 - 1, vert2 - 1, weight});
-  }
-
+int Kruskal(int vertex_count, std::vector<Edge>& edges) {
   std::sort(edges.begin(), edges.end());
 
   DSU dsu(vertex_count);
   int weight = 0;
 
-  for (Edge edge : edges) {
+  for (const Edge& edge : edges) {
     if (dsu.AreSame(edge.from, edge.to)) {
       continue;
     }
@@ -79,5 +67,9 @@ int main() {
     weight += edge.weight;
   }
 
-  std::cout << weight;
+  return weight;
 }
+
+}  // namespace Aads
+
+#endif  // KRUSKAL_HPP

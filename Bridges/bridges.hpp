@@ -1,5 +1,9 @@
-#include <iostream>
+#ifndef BRIDGES_HPP
+#define BRIDGES_HPP
+
 #include <vector>
+
+namespace Aads {
 
 template <typename Visitor>
 void DFSHelper(const std::vector<std::vector<int>>& adj, Visitor& visitor,
@@ -80,26 +84,6 @@ std::vector<std::pair<int, int>> Bridges(
   return visitor.GetBridges();
 }
 
-int main() {
-  size_t nodes;
-  size_t edges;
+}  // namespace Aads
 
-  std::cin >> nodes >> edges;
-
-  std::vector<std::vector<int>> adj(nodes);
-
-  for (size_t i = 0; i < edges; ++i) {
-    int node1;
-    int node2;
-
-    std::cin >> node1 >> node2;
-    adj[node1 - 1].push_back(node2 - 1);
-    adj[node2 - 1].push_back(node1 - 1);
-  }
-
-  std::vector<std::pair<int, int>> bridges = Bridges(adj);
-
-  for (auto [from, to] : bridges) {
-    std::cout << from + 1 << ' ' << to + 1 << '\n';
-  }
-}
+#endif  // BRIDGES_HPP

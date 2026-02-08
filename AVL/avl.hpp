@@ -1,7 +1,9 @@
-#include <cassert>
-#include <iostream>
+#ifndef AVL_HPP
+#define AVL_HPP
 
-const int64_t kMod = 1e9;
+#include <cassert>
+
+namespace Aads {
 
 template <typename T>
 class Tree {
@@ -125,24 +127,6 @@ class Tree {
   Node* root_ = nullptr;
 };
 
-int main() {
-  int quries;
-  Tree<int64_t> tree;
+}  // namespace Aads
 
-  std::cin >> quries;
-
-  for (int i = 0; i < quries; ++i) {
-    int64_t arg;
-    char cmd;
-    std::cin >> cmd;
-
-    if (cmd == '+') {
-      std::cin >> arg;
-      tree.Insert(arg);
-    } else if (cmd == '?') {
-      std::cin >> arg;
-      int64_t next = tree.ContainsNext(arg) ? tree.Next(arg) : -1;
-      std::cout << next << std::endl;
-    }
-  }
-}
+#endif  // AVL_HPP

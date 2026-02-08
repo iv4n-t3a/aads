@@ -1,8 +1,11 @@
+#ifndef MINMAX_HEAP_HPP
+#define MINMAX_HEAP_HPP
+
 #include <bit>
 #include <cstdint>
-#include <iostream>
-#include <string>
 #include <vector>
+
+namespace Aads {
 
 uint32_t Log2(uint32_t num) {
   num |= num >> (1 << 4);
@@ -214,58 +217,6 @@ class MinMaxHeap {
   std::vector<T> heap_;
 };
 
-void ProcessCMD(MinMaxHeap<int64_t>& heap, std::string cmd) {
-  if (cmd == "insert") {
-    int64_t val;
-    std::cin >> val;
-    heap.Insert(val);
-    std::cout << "ok\n";
-  } else if (cmd == "get_min") {
-    if (heap.Size() == 0) {
-      std::cout << "error\n";
-    } else {
-      std::cout << heap.GetMin() << "\n";
-    }
-  } else if (cmd == "get_max") {
-    if (heap.Size() == 0) {
-      std::cout << "error\n";
-    } else {
-      std::cout << heap.GetMax() << "\n";
-    }
-  } else if (cmd == "size") {
-    std::cout << heap.Size() << "\n";
-  } else if (cmd == "clear") {
-    heap.Clear();
-    std::cout << "ok\n";
-  } else if (cmd == "extract_min") {
-    if (heap.Size() == 0) {
-      std::cout << "error\n";
-      return;
-    }
-    std::cout << heap.GetMin() << "\n";
-    heap.ExtractMin();
-  } else if (cmd == "extract_max") {
-    if (heap.Size() == 0) {
-      std::cout << "error\n";
-      return;
-    }
-    std::cout << heap.GetMax() << "\n";
-    heap.ExtractMax();
-  } else if (cmd == "print") {
-    heap.Print();
-  }
-}
+}  // namespace Aads
 
-int main() {
-  MinMaxHeap<int64_t> heap;
-
-  std::string cmd;
-  size_t query_count;
-
-  std::cin >> query_count;
-
-  for (size_t i = 0; i < query_count; ++i) {
-    std::cin >> cmd;
-    ProcessCMD(heap, cmd);
-  }
-}
+#endif  // MINMAX_HEAP_HPP
