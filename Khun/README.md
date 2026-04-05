@@ -1,17 +1,86 @@
-# Алгоритм Куна поиска максимального паросочетания в графе
+# Kuhn's Algorithm for Maximum Matching
 
-## Ассимптотика операций
+Finds maximum matching in a bipartite graph using augmenting paths.
 
-Поиск максимального паросочетания в графе: `O(nm)`,
-где `n` и `m` - количество вершин и ребер соответственно.
+## Algorithm Idea
 
-## Формат входных данных
+Kuhn's algorithm (also known as the Hungarian algorithm for bipartite matching) finds a maximum matching by iteratively searching for augmenting paths. An augmenting path is a path that starts and ends at unmatched vertices, alternating between non-matching and matching edges. Each augmenting path increases the matching size by 1. The algorithm terminates when no more augmenting paths exist.
 
-На первой строке идет `L` и `R` - количество вершин в левой и правой доле графа соответственно.
+## Complexity
 
-Далее идет `L` строк, на строке с номером `i` описаны вершины правой доли с которой соединена `i`-я вершина левой.
-В конце строки стоит `0`.
+* **Time**: `O(|V| × |E|)` where `|V|` is the number of vertices and `|E|` is the number of edges
+* **Space**: `O(|V|)`
 
-## Выходные данные
+In practice, often performs much better than worst-case complexity.
 
-На первой строке количество пар в максимальном паросочетании, далее идут сами пары.
+## Classes and Functions
+
+### `Aads::AbstractGraph<T, E, bool is_directed>`
+
+Abstract base class for graph implementations.
+
+**Methods:**
+- `virtual size_t CountVertices() const`
+- `virtual size_t CountEdges() const`
+- `virtual void AddEdge(EdgeT edge)`
+- `virtual std::span<const EdgeT> GetAdj(VertexT vertex) const`
+
+### `Aads::GraphImpl<T, E, bool is_directed, Hash>`
+
+Concrete graph implementation using adjacency lists.
+
+### `Aads::AbstractBipartGraph<T, E>`
+
+Abstract interface for bipartite graphs.
+
+**Methods:**
+- `virtual std::span<const VertexT> LeftPart() const`: Returns vertices in left partition
+- `virtual void AddVertexToLeft(VertexT vertex)`: Adds vertex to left partition
+
+### `Aads::BipartGraphImpl<T, E, bool is_directed, Hash>`
+
+Bipartite graph implementation combining graph and bipartite interfaces.
+
+### `Aads::FindMaxMatching<BipartitionGraph, Vertex, VertexHash>(const BipartitionGraph& graph)`
+
+Finds maximum matching in a bipartite graph.
+
+**Parameters:**
+- `graph`: Bipartite graph
+
+**Returns:**
+- `std::unordered_map<Vertex, Vertex, VertexHash>`: Matching as map from right vertices to left vertices
+
+**Time complexity:** `O(|V| × |E|)`
+
+### Helper Types
+
+**`Aads::Vertex`**
+- Represents a vertex in bipartite graph
+- Fields: `size_t index`, `bool is_right`
+
+**`Aads::VertexHash`**
+- Hash function for `Vertex` type
+
+**`Aads::GraphT`**
+- Type alias for `BipartGraphImpl<Vertex, std::pair<Vertex, Vertex>, false, VertexHash>`
+
+## Usage Example
+
+```cpp
+#include "Khun/khun.hpp"
+
+Aads::GraphT graph;
+
+// Add left vertices
+graph.AddVertexToLeft({0, false});
+graph.AddVertexToLeft({1, false});
+
+// Add edges from left to right
+graph.AddEdge({{0, false}, {0, true}});
+graph.AddEdge({{0, false}, {1, true}});
+graph.AddEdge({{1, false}, {1, true}});
+
+auto matching = Aads::FindMaxMatching<Aads::GraphT, Aads::Vertex, Aads::VertexHash>(graph);
+// matching.size() gives the size of maximum matching
+```
