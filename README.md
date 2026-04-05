@@ -13,7 +13,7 @@ Simple header-only generic algorithms implementation library
 - No exception safety
 - No thread safety
 
-## Work in progress worning
+## Work in progress warning
 
 Work on this library isn't finished. The known issues are:
 
