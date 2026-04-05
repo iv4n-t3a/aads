@@ -1,8 +1,13 @@
+#ifndef AHO_CORASICK_HPP
+#define AHO_CORASICK_HPP
+
 #include <array>
-#include <iostream>
 #include <list>
 #include <queue>
 #include <string>
+#include <vector>
+
+namespace Aads {
 
 class Automaton {
   static const size_t kAlpSize = 26;
@@ -109,40 +114,6 @@ class Automaton {
   Node* root_ = nullptr;
 };
 
-std::string InputPattern(std::istream& inp) {
-  std::string pattern;
-  inp >> pattern;
-  return pattern;
-}
+}  // namespace Aads
 
-std::vector<std::string> InputStrings(std::istream& inp) {
-  size_t count;
-  inp >> count;
-
-  std::vector<std::string> res(count);
-  for (size_t i = 0; i < count; ++i) {
-    inp >> res[i];
-  }
-  return res;
-}
-
-void PrintAnswer(std::ostream& outp, const std::vector<std::list<int>>& entries,
-                 const std::vector<std::string>& strings) {
-  for (size_t i = 0; i < strings.size(); ++i) {
-    outp << entries[i].size() << " ";
-    for (int entry : entries[i]) {
-      outp << entry + 1 - strings[i].size() << " ";
-    }
-    outp << "\n";
-  }
-}
-
-int main() {
-  std::string pattern = InputPattern(std::cin);
-  std::vector<std::string> strings = InputStrings(std::cin);
-
-  Automaton automaton(strings.begin(), strings.end());
-
-  std::vector<std::list<int>> entries = automaton.FindEntries(pattern);
-  PrintAnswer(std::cout, entries, strings);
-}
+#endif  // AHO_CORASICK_HPP

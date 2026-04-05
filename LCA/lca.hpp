@@ -1,8 +1,14 @@
+#ifndef LCA_HPP
+#define LCA_HPP
+
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <span>
+#include <tuple>
+#include <unordered_map>
 #include <vector>
+
+namespace Aads {
 
 template <typename T>
 class SparseTable {
@@ -169,40 +175,6 @@ class LCA {
   std::unordered_map<Vertex, int> first_;
 };
 
-Graph<int> InputGraph(std::istream& inp) {
-  int verts;
-  inp >> verts;
+}  // namespace Aads
 
-  Graph<int> graph;
-
-  for (int i = 0; i < verts - 1; ++i) {
-    int vert1;
-    int vert2;
-    inp >> vert1 >> vert2;
-    graph.AddEdge(vert1 - 1, vert2 - 1);
-  }
-
-  return graph;
-}
-
-template <typename LCA>
-void ProcessQuery(std::istream& inp, std::ostream& outp, const LCA& lca) {
-  int vert1;
-  int vert2;
-  inp >> vert1 >> vert2;
-
-  int distance = lca.Depth(vert1 - 1) + lca.Depth(vert2 - 1) -
-                 2 * lca.Depth(lca.GetLca(vert1 - 1, vert2 - 1));
-  outp << distance << std::endl;
-}
-
-int main() {
-  Graph<int> graph = InputGraph(std::cin);
-  LCA lca(graph, 0);
-
-  size_t queries;
-  std::cin >> queries;
-  for (size_t i = 0; i < queries; ++i) {
-    ProcessQuery(std::cin, std::cout, lca);
-  }
-}
+#endif  // LCA_HPP

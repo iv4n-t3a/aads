@@ -1,9 +1,13 @@
+#ifndef KOSARAJU_HPP
+#define KOSARAJU_HPP
+
 #include <algorithm>
-#include <iostream>
 #include <span>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
+namespace Aads {
 
 enum Color { WHITE, GREY, BLACK };
 
@@ -156,35 +160,6 @@ std::vector<int> Condensate(const DirGraph<int>& graph) {
   return condensated;
 }
 
-DirGraph<int> InputGraph(std::istream& inp) {
-  size_t vertexs;
-  size_t edges;
+}  // namespace Aads
 
-  inp >> vertexs >> edges;
-
-  DirGraph<int> graph;
-
-  for (size_t i = 0; i < edges; ++i) {
-    int vertex1;
-    int vertex2;
-
-    inp >> vertex1 >> vertex2;
-
-    graph.AddEdge(vertex1 - 1, vertex2 - 1);
-  }
-
-  return graph;
-}
-
-void PrintCondGraph(std::ostream& outp, const std::vector<int>& condensated) {
-  for (size_t i = 0; i < condensated.size(); ++i) {
-    outp << i + 1 << " - " << condensated[i] << '\n';
-  }
-  outp << std::endl;
-}
-
-int main() {
-  DirGraph<int> graph = InputGraph(std::cin);
-  std::vector<int> condensated = Condensate(graph);
-  PrintCondGraph(std::cout, condensated);
-}
+#endif  // KOSARAJU_HPP

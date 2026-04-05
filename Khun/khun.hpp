@@ -1,8 +1,12 @@
-#include <iostream>
+#ifndef KHUN_HPP
+#define KHUN_HPP
+
 #include <span>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
+namespace Aads {
 
 template <typename T, typename E = std::pair<T, T>, bool is_directed = false>
 class AbstractGraph {
@@ -173,40 +177,6 @@ struct VertexHash {
 using GraphT =
     BipartGraphImpl<Vertex, std::pair<Vertex, Vertex>, false, VertexHash>;
 
-GraphT InputGraph(std::istream& inp) {
-  size_t left_size;
-  size_t right_size;
+}  // namespace Aads
 
-  inp >> left_size >> right_size;
-
-  GraphT res;
-
-  for (size_t left_vert = 0; left_vert < left_size; ++left_vert) {
-    size_t right_vert;
-    inp >> right_vert;
-
-    res.AddVertexToLeft({left_vert, false});
-    while (right_vert != 0) {
-      res.AddEdge({{left_vert, false}, {right_vert - 1, true}});
-      inp >> right_vert;
-    }
-  }
-
-  return res;
-}
-
-void PrintMatching(
-    std::ostream& outp,
-    const std::unordered_map<Vertex, Vertex, VertexHash>& matching) {
-  outp << matching.size() << "\n";
-  for (auto pair : matching) {
-    outp << pair.second.index + 1 << " " << pair.first.index + 1 << "\n";
-  }
-}
-
-int main() {
-  GraphT graph = InputGraph(std::cin);
-  std::unordered_map<Vertex, Vertex, VertexHash> matching =
-      FindMaxMatching<GraphT, Vertex, VertexHash>(graph);
-  PrintMatching(std::cout, matching);
-}
+#endif  // KHUN_HPP

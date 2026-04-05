@@ -1,6 +1,10 @@
-#include <iostream>
+#ifndef CUT_POINTS_HPP
+#define CUT_POINTS_HPP
+
 #include <unordered_set>
 #include <vector>
+
+namespace Aads {
 
 template <typename Visitor>
 void DFSHelper(const std::vector<std::vector<int>>& adj, Visitor& visitor,
@@ -87,27 +91,6 @@ std::unordered_set<int> CutPoints(const std::vector<std::vector<int>>& adj) {
   return visitor.GetCutpoints();
 }
 
-int main() {
-  size_t nodes;
-  size_t edges;
+}  // namespace Aads
 
-  std::cin >> nodes >> edges;
-
-  std::vector<std::vector<int>> adj(nodes);
-
-  for (size_t i = 0; i < edges; ++i) {
-    int node1;
-    int node2;
-
-    std::cin >> node1 >> node2;
-    adj[node1 - 1].push_back(node2 - 1);
-    adj[node2 - 1].push_back(node1 - 1);
-  }
-
-  std::unordered_set<int> cut_points = CutPoints(adj);
-
-  for (int node : cut_points) {
-    std::cout << node + 1 << ' ';
-  }
-  std::cout << std::endl;
-}
+#endif  // CUT_POINTS_HPP
