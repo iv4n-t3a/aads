@@ -13,9 +13,10 @@ Simple header-only generic algorithms implementation library
 - No exception safety
 - No thread safety
 
-There are also quite a few additional algorithms planned for refactoring and inclusion in this repository.
+## Work in progress worning
 
-## Major Refactoring
+Work on this library isn't finished. The known issues are:
 
-I am currently refactoring the entire repository. Improvements include code enhancements, pipeline integration, and ~~writing~~ generating documentation and tests.
-At this stage, the work is partially completed but has already seen significant improvements.
+- MinmaxHeap and Dijsktra doesn't work
+- Some algoritms may conflict with each other due to using same helper classes. I will refactore this problem later
+- Some docs and tests are AI-generated, so may contain mistakes
